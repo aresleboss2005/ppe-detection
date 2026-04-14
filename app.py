@@ -9,7 +9,7 @@ from ultralytics import YOLO
 import os
 
 # ── STEP 1: load the trained model ────────────────────────────────────────
-MODEL_PATH = os.path.join("runs", "detect", "ppe_model6", "weights", "best.pt")
+MODEL_PATH = os.path.join("runs", "detect", "ppe_model3", "weights", "best.pt")
 
 if not os.path.exists(MODEL_PATH):
     print("❌ Trained model not found at:", MODEL_PATH)
@@ -83,25 +83,25 @@ while True:
             # ── choose color and status label ─────────────────────────
             if class_name in MISSING_PPE:
                 color  = (0, 0, 255)      # RED   ❌  PPE missing
-                status = "MISSING"
+
 
             elif class_name in WEARING_PPE:
                 color  = (0, 200, 0)      # GREEN ✅  PPE worn
-                status = "OK"
+
 
             elif class_name == "Person":
                 color  = (0, 165, 255)    # ORANGE 👤  person (PPE unknown)
-                status = "Person"
+
 
             else:
                 color  = (200, 200, 200)  # GRAY  — any other class
-                status = class_name
+                #status = class_name
 
             # ── draw bounding box ──────────────────────────────────────
             cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness=2)
 
             # ── build text label  e.g. "NO-Hardhat MISSING 83%" ───────
-            label = f"{class_name}  {status}  {confidence:.0%}"
+            label = f"{class_name}"
 
             # measure text size so the background fits correctly
             (text_w, text_h), baseline = cv2.getTextSize(
