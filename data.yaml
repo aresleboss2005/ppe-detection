@@ -1,0 +1,36 @@
+# data.yaml — exact classes from Construction Site Safety v28 (Roboflow)
+# 25 classes total: PPE items + vehicles + people
+
+path: .                        # root = same folder as this yaml file
+train: train/images
+val:   valid/images
+test:  test/images
+
+nc: 25
+
+names:
+  - Hardhat           # 0  ✅ wearing hardhat
+  - Mask              # 1  ✅ wearing mask
+  - NO-Hardhat        # 2  ❌ not wearing hardhat
+  - NO-Mask           # 3  ❌ not wearing mask
+  - NO-Safety Vest    # 4  ❌ not wearing vest
+  - Person            # 5  👤 generic person
+  - Safety Cone       # 6  🔶 cone on site
+  - Safety Vest       # 7  ✅ wearing vest
+  - machinery         # 8  🚜 heavy machinery
+  - vehicle           # 9  🚗 vehicle
+  - Excavator         # 10
+  - Gloves            # 11 ✅ wearing gloves
+  - Ladder            # 12
+  - SUV               # 13
+  - bus               # 14
+  - dump truck        # 15
+  - mini-van          # 16
+  - sedan             # 17
+  - semi              # 18
+  - trailer           # 19
+  - truck             # 20
+  - truck and trailer # 21
+  - van               # 22
+  - wheel loader      # 23
+  - fire hydrant      # 24
