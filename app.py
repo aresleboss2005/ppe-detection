@@ -1,7 +1,6 @@
 # ==============================================================
-# detect_live.py  ─  Live PPE detection via webcam
-# HOW TO RUN:  python detect_live.py
-# REQUIRES:    train.py must have been run first
+# app.py  ─  Live PPE detection via webcam
+# HOW TO RUN:  python app.py
 # QUIT:        press Q
 # ==============================================================
 
