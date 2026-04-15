@@ -26,7 +26,7 @@ except ImportError:
 # ==============================================================
 # Auto-find latest best.pt
 model_dirs = sorted(glob.glob("runs/detect/ppe_model*"))
-MODEL_PATH  = "runs/detect/ppe_model9/weights/best.pt"
+MODEL_PATH  = "runs/detect/ppe_model/weights/best.pt"
 for d in reversed(model_dirs):
     best = os.path.join(d, "weights", "best.pt")
     if os.path.exists(best):
@@ -246,6 +246,9 @@ class PPEApp:
         self.status_var     = tk.StringVar(value="EN ATTENTE DE DETECTION")
         self.online_var     = tk.StringVar(value="OFFLINE")
 
+        # Stores last known PPE state per person to avoid log spam
+        self.last_person_states = {}
+
         self._build_ui()
         self._load_model()
         self.root.protocol("WM_DELETE_WINDOW", self._on_close)
@@ -451,6 +454,7 @@ class PPEApp:
             self.cap.release()
             self.cap = None
         self.tracker.reset()
+        self.last_person_states = {}
         self.cam_canvas.delete("frame")
         self.cam_canvas.itemconfig(self.cam_text,
                                    text="Camera inactive\nAppuie sur DEMARRER")
@@ -478,7 +482,7 @@ class PPEApp:
             vest_ok         = vest_missing    = False
 
             if self.model:
-                results = self.model.predict(source=frame, conf=CONFIDENCE, verbose=False)
+                results = self.model.track(source=frame, conf=CONFIDENCE, persist=True, verbose=False)
 
                 for result in results:
                     for box in result.boxes:
@@ -558,6 +562,12 @@ class PPEApp:
                     self.status_var.set("DETECTION EN COURS...")
                 else:
                     self.status_var.set("EN ATTENTE DE DETECTION")
+
+            # Clean up states for persons no longer tracked
+            active_ids = {p["id"] for p in tracked}
+            for pid in list(self.last_person_states.keys()):
+                if pid not in active_ids:
+                    del self.last_person_states[pid]
 
             # Update person tracking panel
             self.root.after(0, self._update_person_panel, tracked)
@@ -674,6 +684,7 @@ class PPEApp:
         self.alert_count = 0
         self.alert_var.set("0")
         self.tracker.reset()
+        self.last_person_states = {}
 
     # ----------------------------------------------------------
     #  SOUND / CLOSE
