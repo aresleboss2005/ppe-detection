@@ -9,7 +9,8 @@ from ultralytics import YOLO
 import os
 
 # ── STEP 1: load the trained model ────────────────────────────────────────
-MODEL_PATH = os.path.join("runs", "detect", "ppe_model6", "weights", "best.pt")
+MODEL_PATH = os.path.join("runs", "detect", "ppe_model7", "weights", "best.pt")
+# MODEL_PATH = ..\ppe-detection\runs\detect\ppe_model6\weights\best.pt
 
 if not os.path.exists(MODEL_PATH):
     print("❌ Trained model not found at:", MODEL_PATH)
